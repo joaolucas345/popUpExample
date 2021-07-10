@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin: 0;
+    }
+    :root{
+        --popUpZIndex:99;
+        --popUpVisibility:hidden;
+    }
+    .popupdiv{
+        width: 40vw;
+        z-index: 100;
+        height: 20vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        visibility: var(--popUpVisibility);
+        background-color: grey;
+        position: absolute;
+    }
+    .screen{
+        height: 100vh;
+        width: 100vw;
+        position: fixed;
+        z-index: -1;
+        top:0;
+        left:0;
+        display: flex;
+        
+        background-color: rgba(0,0,0,0.2);
+        justify-content: center;
+    }
+    .container-pop-up{
+        height: 100%;
+        width: 100%;
+        /* cursor: move; */
+        position: relative;
+        text-align: center;
+    }
+    .drag-area{
+        height: 20px;
+        width:20px;
+        position: absolute;
+        background-color: red;
+        top:0;
+        cursor: move;
+        left:0;
+    }
+    body{
+        background-color: indigo;
+        height: 100vh;
+        width: 100vw;
+        z-index: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<body>
+    <div class="screen">
+        <div class="popupdiv" ondrag="mouseDown(event)" id="dragable" ondragend="mouseUp()">
+            <div class="container-pop-up" id="select">
+                <div class="drag-area"></div>
+                <h2 id="hey">CLICK TO DISAPPEAR</h2>
+            </div>
+            <!-- <input type="file"> -->
+        </div>
+        
+    </div>
+    <button onclick="showPopUp()">hey click me to see the pop up!!!!😁</button>
+    <script>
+        console.log("started")
+        const popup = document.getElementById("dragable")
+        const select = document.getElementById("select")
+        const screen = document.querySelector(".screen")
+        const text = document.getElementById("hey")
+        const track = [null , null]
+        // let x, y, isMouseMoving
+
+        const mouseDown = (e) => {
+            popup.style.top = e.y + "px"
+            popup.style.left = e.x + "px"
+            track[1] = track[0]
+            track[0] = {x:e.x , y:e.y} 
+        }
+        const mouseUp = () => {
+            popup.style.top = track[1].y + "px"
+            popup.style.left = track[1].x + "px"
+        }
+        const showPopUp = () => {
+            console.log(select.draggable)
+            screen.style.zIndex = 99
+            document.documentElement.style.setProperty("--popUpVisibility" , "visible")
+        }
+        text.onclick = () => {
+            screen.style.zIndex = -1
+            document.documentElement.style.setProperty("--popUpVisibility" , "hidden")
+        }
+    </script>
+</body>
+</html>
